@@ -273,7 +273,7 @@ public class ImageLoader {
     private Bitmap downLoad(String key) {
         InputStream is = null;
         try {
-            is = HttpUtils.downLoad(key);
+            is = HttpUtil.downLoad(key);
             return BitmapFactory.decodeStream(is);
         } catch (IOException e) {
             e.printStackTrace();
