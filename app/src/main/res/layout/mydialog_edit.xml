@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/tv_inform_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:gravity="center" />
+
+    <EditText
+        android:id="@+id/et_edit_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Edit something here"/>
+
+    <Button
+        android:id="@+id/btn_ok_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OK"/>
+
+</LinearLayout>
