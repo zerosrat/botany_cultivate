@@ -12,13 +12,13 @@
 @interface HomePageViewController ()<UIScrollViewDelegate>
 @property (nonatomic,assign) CGFloat SCREEN_WIDTH;
 @property (nonatomic,assign) CGFloat SCREEN_HEIGHT;
-@property (nonatomic,strong) UIScrollView *rootScrollView;
-@property (nonatomic,strong) UIScrollView *headImageScrollView;
-@property (nonatomic,strong) UIPageControl *headImagePageControl;
-@property (nonatomic,strong) UIView *infoRootView;
-@property (nonatomic,strong) UICollectionView *collectionView;
-@property (nonatomic,strong) UICollectionViewFlowLayout *flowLayout;
-@property (nonatomic,strong) Home_CollectionDelegate *collectionDelegate;
+@property (nonatomic,strong) UIScrollView *rootScrollView;//最背景的scrollview
+@property (nonatomic,strong) UIScrollView *headImageScrollView;//
+@property (nonatomic,strong) UIPageControl *headImagePageControl;//最背景的scrollview
+@property (nonatomic,strong) UIView *infoRootView;//最背景的scrollview
+@property (nonatomic,strong) UICollectionView *collectionView;//最背景的scrollview
+@property (nonatomic,strong) UICollectionViewFlowLayout *flowLayout;//最背景的scrollview
+@property (nonatomic,strong) Home_CollectionDelegate *collectionDelegate;//最背景的scrollview
 @end
 
 @implementation HomePageViewController
