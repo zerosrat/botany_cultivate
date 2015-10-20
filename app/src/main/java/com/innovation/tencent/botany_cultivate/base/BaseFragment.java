@@ -16,8 +16,9 @@ public abstract class BaseFragment extends Fragment {
         init();
         View view=inflater.inflate(getRooyView(),container,false);
         setComponsition(view);
-        setListener();
         initData();
+        setListener();
+
         return view;
 
     }

@@ -16,8 +16,9 @@ public abstract class BaseActivity extends AppCompatActivity{
         init();
         setContentView(getRootView());
         setComposition();
-        setListener();
         initData();
+        setListener();
+
     }
 
     /**
