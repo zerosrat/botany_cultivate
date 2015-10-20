@@ -1,13 +1,13 @@
 package com.innovation.tencent.botany_cultivate.base;
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import com.innovation.tencent.botany_cultivate.utils.ActivityUtil;
 
 /**
  * Created by Mr.Jadyn on 15/10/13.
  */
-public abstract class BaseActivity extends Activity{
+public abstract class BaseActivity extends AppCompatActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -15,6 +15,7 @@ public abstract class BaseActivity extends Activity{
         ActivityUtil.addActivity(this);
         init();
         setContentView(getRootView());
+        setComposition();
         setListener();
         initData();
     }
@@ -39,6 +40,11 @@ public abstract class BaseActivity extends Activity{
      * 请求数据，设置UI
      */
     protected abstract void initData();
+
+    /**
+     * findViewById
+     */
+    protected abstract void setComposition();
 
     /**
      * activity销毁后的操作
