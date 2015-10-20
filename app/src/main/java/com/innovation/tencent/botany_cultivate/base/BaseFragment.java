@@ -15,10 +15,11 @@ public abstract class BaseFragment extends Fragment {
         myActivity= (BaseActivity) getActivity();
         init();
         View view=inflater.inflate(getRooyView(),container,false);
+        setComponsition(view);
         setListener();
-        setComponsition();
         initData();
         return view;
+
     }
 
     /**
@@ -42,5 +43,5 @@ public abstract class BaseFragment extends Fragment {
     /**
      * findViewById
      */
-    protected abstract void setComponsition();
+    protected abstract void setComponsition(View view);
 }

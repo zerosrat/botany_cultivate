@@ -35,7 +35,7 @@ public class IndividualFragment extends BaseFragment {
     }
 
     @Override
-    protected void setComponsition() {
+    protected void setComponsition(View view) {
 
     }
 }
