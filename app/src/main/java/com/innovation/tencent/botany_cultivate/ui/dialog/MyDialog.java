@@ -68,37 +68,37 @@ public class MyDialog extends Dialog{
         super.onCreate(savedInstanceState);
         switch (dialogType){
             case 1:
-                setContentView(R.layout.mydialog_1);
+                setContentView(R.layout.mydialog_image);
                 setTitle(m_title);
-                ImageView image = (ImageView) findViewById(R.id.image);
-                image.setImageResource(m_image);
-                TextView text_1 = (TextView) findViewById(R.id.textword1);
-                text_1.setText(m_inform);
-                Button btn_1 = (Button) findViewById(R.id.btnok1);
-                btn_1.setOnClickListener(clickListener);
+                ImageView iv_image_image = (ImageView) findViewById(R.id.iv_image_image);
+                iv_image_image.setImageResource(m_image);
+                TextView tv_inform_image = (TextView) findViewById(R.id.tv_inform_image);
+                tv_inform_image.setText(m_inform);
+                Button btn_ok_image = (Button) findViewById(R.id.btn_ok_image);
+                btn_ok_image.setOnClickListener(clickListener);
                 break;
             case 2:
-                setContentView(R.layout.mydialog_2);
+                setContentView(R.layout.mydialog_inform);
                 setTitle(m_title);
-                TextView text_2 = (TextView) findViewById(R.id.textword2);
-                text_2.setText(m_inform);
-                Button btn_2 = (Button) findViewById(R.id.btnok2);
-                btn_2.setOnClickListener(clickListener);
+                TextView tv_inform_inform = (TextView) findViewById(R.id.tv_inform_inform);
+                tv_inform_inform.setText(m_inform);
+                Button btn_ok_inform = (Button) findViewById(R.id.btn_ok_inform);
+                btn_ok_inform.setOnClickListener(clickListener);
                 break;
             case 3:
-                setContentView(R.layout.mydialog_3);
+                setContentView(R.layout.mydialog_edit);
                 setTitle(m_title);
-                TextView text_3 = (TextView) findViewById(R.id.textword3);
-                text_3.setText(m_inform);
-                Button btn_3 = (Button) findViewById(R.id.btnok3);
-                btn_3.setOnClickListener(clickListener);
-                m_editText = (EditText) findViewById(R.id.edit_text);
+                TextView tv_inform_edit = (TextView) findViewById(R.id.tv_inform_edit);
+                tv_inform_edit.setText(m_inform);
+                Button btn_ok_edit = (Button) findViewById(R.id.btn_ok_edit);
+                btn_ok_edit.setOnClickListener(clickListener);
+                m_editText = (EditText) findViewById(R.id.et_edit_edit);
                 break;
             case 4:
-                setContentView(R.layout.mydialog_4);
+                setContentView(R.layout.mydialog_progress);
                 setTitle(m_title);
-                Button btn_4 = (Button) findViewById(R.id.btnok4);
-                btn_4.setOnClickListener(clickListener);
+                Button btn_ok_progress = (Button) findViewById(R.id.btn_ok_progress);
+                btn_ok_progress.setOnClickListener(clickListener);
                 break;
         }
     }
