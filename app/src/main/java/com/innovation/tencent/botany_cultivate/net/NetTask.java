@@ -88,10 +88,10 @@ public abstract class NetTask {
                 onFinish();
             }
             try {
-                if(jsonObject.getInt("code")==0){
-                    onSuccess(jsonObject.getJSONObject("data"));
+                if(jsonObject.getInt("resultcode")==0){
+                    onSuccess(jsonObject.getJSONObject("result"));
                 }else{
-                    int errorCode=jsonObject.getInt("code");
+                    int errorCode=jsonObject.getInt("resultcode");
                     String errorStr=jsonObject.getString("reason");
                     onError(errorCode,errorStr);
                 }

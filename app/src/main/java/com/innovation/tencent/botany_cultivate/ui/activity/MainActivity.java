@@ -2,7 +2,9 @@ package com.innovation.tencent.botany_cultivate.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -66,6 +68,7 @@ public class MainActivity extends BaseActivity {
                         rb_individual_main.setChecked(true);
                         break;
                 }
+
             }
 
             @Override
@@ -111,12 +114,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        adapter = new MyPagerAdapter(fm);
-        vp_main.setAdapter(adapter);
-    }
-
-    @Override
-    protected void setComposition() {
         rb_home_main = (RadioButton) findViewById(R.id.rb_home_main);
         rb_garden_main = (RadioButton) findViewById(R.id.rb_garden_main);
         rb_shop_main = (RadioButton) findViewById(R.id.rb_shop_main);
@@ -124,7 +121,10 @@ public class MainActivity extends BaseActivity {
         vp_main = (MyViewPager) findViewById(R.id.vp_main);
         tv_title_main = (TextView) findViewById(R.id.tv_title_main);
         rg_main = (RadioGroup) findViewById(R.id.rg_main);
+        adapter = new MyPagerAdapter(fm);
+        vp_main.setAdapter(adapter);
     }
+
     private void alterTitle(int position){
         switch (position){
             case 0:
@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private class MyPagerAdapter extends FragmentStatePagerAdapter {
+    private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }

@@ -128,6 +128,7 @@ public class ImageLoader {
         if (bitmap != null) {
             //结束该图片的异步任务
             cancelDownload(key,imageView);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setImageBitmap(bitmap);
         } else {
             //访问网络
@@ -175,6 +176,7 @@ public class ImageLoader {
                 //添加到一级缓存
                 addFirstCache(key, bitmap);
                 //显示
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 imageView.setImageBitmap(bitmap);
             }
         }

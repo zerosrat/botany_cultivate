@@ -24,12 +24,9 @@ public class GardenFragment extends BaseFragment {
     }
 
     @Override
-    protected void initData() {
+    protected void initData(View view) {
 
     }
 
-    @Override
-    protected void setComponsition(View view) {
 
-    }
 }

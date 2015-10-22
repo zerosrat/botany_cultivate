@@ -15,7 +15,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         ActivityUtil.addActivity(this);
         init();
         setContentView(getRootView());
-        setComposition();
+
         initData();
         setListener();
 
@@ -42,10 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity{
      */
     protected abstract void initData();
 
-    /**
-     * findViewById
-     */
-    protected abstract void setComposition();
+
 
     /**
      * activity销毁后的操作
