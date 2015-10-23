@@ -4,31 +4,33 @@ package com.innovation.tencent.botany_cultivate.domain;
  * Created by Mr.Jadyn on 15/10/21.
  */
 public class Weather {
-    private CurrentWeather currentWeather;
-    private TodayWeather todayWeather;
-    private String uvIndex;//紫外线强度
+    private CurrentWeather sk;
+    private TodayWeather today;
 
-    public CurrentWeather getCurrentWeather() {
-        return currentWeather;
+    public Weather() {
+        if (sk == null) {
+            sk = new CurrentWeather();
+        }
+        if (today == null) {
+            today = new TodayWeather();
+        }
     }
 
-    public void setCurrentWeather(CurrentWeather currentWeather) {
-        this.currentWeather = currentWeather;
+    public CurrentWeather getSk() {
+
+        return sk;
     }
 
-    public TodayWeather getTodayWeather() {
-        return todayWeather;
+    public void setSk(CurrentWeather sk) {
+        this.sk = sk;
     }
 
-    public void setTodayWeather(TodayWeather todayWeather) {
-        this.todayWeather = todayWeather;
+    public TodayWeather getToday() {
+
+        return today;
     }
 
-    public String getUvIndex() {
-        return uvIndex;
-    }
-
-    public void setUvIndex(String uvIndex) {
-        this.uvIndex = uvIndex;
+    public void setToday(TodayWeather today) {
+        this.today = today;
     }
 }

@@ -4,16 +4,9 @@ package com.innovation.tencent.botany_cultivate.domain;
  * Created by Mr.Jadyn on 15/10/21.
  */
 public class TodayWeather {
-    private String temp;
+
     private String weather;
-
-    public String getTemp() {
-        return temp;
-    }
-
-    public void setTemp(String temp) {
-        this.temp = temp;
-    }
+    private String uv_index;//紫外线强度
 
     public String getWeather() {
         return weather;
@@ -21,5 +14,13 @@ public class TodayWeather {
 
     public void setWeather(String weather) {
         this.weather = weather;
+    }
+
+    public String getUv_index() {
+        return uv_index;
+    }
+
+    public void setUv_index(String uv_index) {
+        this.uv_index = uv_index;
     }
 }

@@ -1,29 +1,53 @@
 package com.innovation.tencent.botany_cultivate.net;
+
+import android.content.Context;
+import android.widget.EditText;
+
 import com.innovation.tencent.botany_cultivate.base.BaseActivity;
+import com.innovation.tencent.botany_cultivate.ui.dialog.MyDialog;
+import com.innovation.tencent.botany_cultivate.utils.NetWorkUtil;
 import com.innovation.tencent.botany_cultivate.utils.ThreadPoolUtil;
+import com.innovation.tencent.botany_cultivate.utils.UIUtil;
+
 import org.json.JSONObject;
 
 /**
  * Created by Mr.Jadyn on 15/10/15.
  */
 public abstract class NetTask {
-    private BaseActivity baseActivity;
     private JSONObject jsonObject;
+    private Context context;
+    private MyDialog myProcessDialog, myErrorDialog;
 
-    public NetTask() {
+    public NetTask(Context context) {
+        this.context = context;
+        myProcessDialog = new MyDialog(context, "请稍等", new MyDialog.OnMyDialogListener() {
+            @Override
+            public void back(EditText editText) {
 
+            }
+        });
+        myErrorDialog = new MyDialog(context, "网络问题", "网络不给力啊", new MyDialog.OnMyDialogListener() {
+            @Override
+            public void back(EditText editText) {
+
+            }
+        });
     }
 
-    public NetTask(BaseActivity baseActivity) {
-        this.baseActivity = baseActivity;
-    }
 
     public void execute() {
-        //修改 判断是否有网
-        //showProgress
-        onStart();
-        TaskRunnable mTask = new TaskRunnable();
-        ThreadPoolUtil.getLongPool().execute(mTask);
+
+        System.out.println("----->"+NetWorkUtil.getInstance(context).isConnectNet());
+        if (NetWorkUtil.getInstance(context).isConnectNet()) {
+            myProcessDialog.show();
+            //showProgress
+            onStart();
+            TaskRunnable mTask = new TaskRunnable();
+            ThreadPoolUtil.getLongPool().execute(mTask);
+        } else {
+            myErrorDialog.show();
+        }
     }
 
     /**
@@ -75,32 +99,39 @@ public abstract class NetTask {
     }
 
     private class TaskRunnable implements Runnable {
-        //        private NetTask netTask;
-//        public TaskRunnable(NetTask netTask){
-//            this.netTask=netTask;
-//        }
+
         @Override
         public void run() {
             jsonObject = onLoad();
+            UITaskRunnable uiTaskRunnable = new UITaskRunnable();
+            UIUtil.runInMainThread(uiTaskRunnable);
+        }
+    }
+
+    private class UITaskRunnable implements Runnable {
+
+        @Override
+        public void run() {
 
             if (jsonObject == null) {
                 onFail();
                 onFinish();
+                myProcessDialog.hide();
             }
             try {
-                if(jsonObject.getInt("resultcode")==0){
+                if (jsonObject.getInt("resultcode") == 200) {
                     onSuccess(jsonObject.getJSONObject("result"));
-                }else{
-                    int errorCode=jsonObject.getInt("resultcode");
-                    String errorStr=jsonObject.getString("reason");
-                    onError(errorCode,errorStr);
+                } else {
+                    int errorCode = jsonObject.getInt("resultcode");
+                    String errorStr = jsonObject.getString("reason");
+                    onError(errorCode, errorStr);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 //出错了，请稍后重试
-            }finally {
+            } finally {
                 onFinish();
-                //隐藏等待框
+                myProcessDialog.hide();
             }
         }
     }

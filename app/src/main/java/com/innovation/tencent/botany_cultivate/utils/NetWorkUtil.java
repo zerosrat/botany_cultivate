@@ -9,33 +9,33 @@ import android.net.NetworkInfo;
  */
 public class NetWorkUtil {
     private static NetWorkUtil instance;
-    private  ConnectivityManager manager;
-    private  NetworkInfo networkInfo;
+    private ConnectivityManager manager;
+    private NetworkInfo networkInfo;
     private Context context;
 
-    private NetWorkUtil(Context context){
-        this.context=context;
-        manager=(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        networkInfo=manager.getActiveNetworkInfo();
+    private NetWorkUtil(Context context) {
+        this.context = context;
+        manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = manager.getActiveNetworkInfo();
     }
-    public static NetWorkUtil getInstance(Context context){
-        if(instance==null){
-            instance=new NetWorkUtil(context);
+
+    public static NetWorkUtil getInstance(Context context) {
+        if (instance == null) {
+            instance = new NetWorkUtil(context);
         }
         return instance;
     }
+
     //检测网络是否可用
-    public  boolean checkNetworkState() {
-        boolean available = networkInfo.isAvailable();
-        if (available) {
-            return true;
-        } else {
-            return false;
+    public boolean isConnectNet() {
+        if (networkInfo != null) {
+            return networkInfo.isAvailable();
         }
+        return false;
     }
 
     //检测是否为移动数据网络
-    public  boolean isWIFI() {
+    public boolean isWIFI() {
         NetworkInfo.State state = manager.getNetworkInfo(manager.TYPE_MOBILE).getState();
         if (NetworkInfo.State.CONNECTED == state) {
             return true;
@@ -45,7 +45,7 @@ public class NetWorkUtil {
     }
 
     //检测是否为WIFI
-    public  boolean isGPRS() {
+    public boolean isGPRS() {
         NetworkInfo.State state = manager.getNetworkInfo(manager.TYPE_WIFI).getState();
         if (NetworkInfo.State.CONNECTED == state) {
             return true;

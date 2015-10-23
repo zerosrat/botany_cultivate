@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.innovation.tencent.botany_cultivate.R;
 import com.innovation.tencent.botany_cultivate.base.BaseFragment;
 import com.innovation.tencent.botany_cultivate.constant.API;
+import com.innovation.tencent.botany_cultivate.domain.Weather;
 import com.innovation.tencent.botany_cultivate.handler.SlideHandler;
 import com.innovation.tencent.botany_cultivate.net.NetTask;
 import com.innovation.tencent.botany_cultivate.ui.adapter.SlideAdapter;
@@ -28,15 +31,18 @@ public class MainFragment extends BaseFragment {
     private RadioGroup rg_slide_main;
     private RadioButton rb_dot1_main, rb_dot2_main, rb_dot3_main;
     private ViewPager vp_slide_main;
-    private SwipeRefreshLayout sr_main;
-    private LayoutInflater inflater;
-    private String[] urls;
     private View slideItem;
     private View baseView;
+    private TextView tv_city_main, tv_temp_main, tv_humidity_main, tv_uvindex_main, tv_wind_main, tv_weather_main;
+
+    private LayoutInflater inflater;
+    private String[] urls;
+
     private List<View> slideItems;
     private static final int IMAGE_NUM = 3;
     private SlideAdapter adapter;
     private SlideHandler slideHandler;
+    private Weather weather;
 
     @Override
     protected int getRooyView() {
@@ -85,22 +91,12 @@ public class MainFragment extends BaseFragment {
             }
         });
 
-        sr_main.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sr_main.setRefreshing(false);
-                        initSlide(baseView);
-                    }
-                }, 500);
-            }
-        });
+
     }
 
     @Override
     protected void init() {
+        weather = new Weather();
         urls = new String[]{
                 "http://img5.imgtn.bdimg.com/it/u=3580210867,3098509580&fm=21&gp=0.jpg",
                 "http://img2.imgtn.bdimg.com/it/u=2162766932,244861494&fm=21&gp=0.jpg",
@@ -118,10 +114,16 @@ public class MainFragment extends BaseFragment {
         rb_dot1_main = (RadioButton) view.findViewById(R.id.rb_dot1_main);
         rb_dot2_main = (RadioButton) view.findViewById(R.id.rb_dot2_main);
         rb_dot3_main = (RadioButton) view.findViewById(R.id.rb_dot3_main);
-        sr_main = (SwipeRefreshLayout) view.findViewById(R.id.sr_main);
+
+        tv_city_main = (TextView) view.findViewById(R.id.tv_city_main);
+        tv_humidity_main = (TextView) view.findViewById(R.id.tv_humidity_main);
+        tv_temp_main = (TextView) view.findViewById(R.id.tv_temp_main);
+        tv_uvindex_main = (TextView) view.findViewById(R.id.tv_uvindex_main);
+        tv_wind_main = (TextView) view.findViewById(R.id.tv_wind_main);
+        tv_weather_main = (TextView) view.findViewById(R.id.tv_weather_main);
+
         inflater = LayoutInflater.from(view.getContext());
         slideHandler = new SlideHandler(view.getContext(), vp_slide_main);
-        sr_main.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         initSlide(view);
         initWeather("成都");
     }
@@ -138,7 +140,8 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initWeather(final String cityName) {
-        new NetTask() {
+        tv_city_main.setText(cityName);
+        new NetTask(baseView.getContext()) {
             @Override
             protected JSONObject onLoad() {
                 return HttpUtil.sendGetRequest(API.URL_WEATHER + cityName);
@@ -147,11 +150,25 @@ public class MainFragment extends BaseFragment {
             @Override
             protected void onSuccess(JSONObject jsonObject) throws Exception {
 
+                System.out.println("----->" + jsonObject.toString());
+
+                weather = JSON.parseObject(jsonObject.toString(), Weather.class);
+                String temp = weather.getSk().getTemp() + "C";
+                String uv_index = weather.getToday().getUv_index();
+                String w = weather.getToday().getWeather();
+                String humidity = weather.getSk().getHumidity();
+                String wind = weather.getSk().getWind_direction() + weather.getSk().getWind_strength();
+                tv_temp_main.setText(temp);
+                tv_uvindex_main.setText(uv_index);
+                tv_weather_main.setText(w);
+                tv_humidity_main.setText(humidity);
+                tv_wind_main.setText(wind);
             }
 
             @Override
             protected void onError(int errorCode, String errorStr) {
                 super.onError(errorCode, errorStr);
+                System.out.println("----->" + errorStr + errorCode);
             }
 
             @Override
