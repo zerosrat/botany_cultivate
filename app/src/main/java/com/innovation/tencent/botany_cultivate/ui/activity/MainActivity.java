@@ -122,6 +122,7 @@ public class MainActivity extends BaseActivity {
         tv_title_main = (TextView) findViewById(R.id.tv_title_main);
         rg_main = (RadioGroup) findViewById(R.id.rg_main);
         adapter = new MyPagerAdapter(fm);
+        vp_main.setOffscreenPageLimit(4);//让viewpager缓存4个页面
         vp_main.setAdapter(adapter);
     }
 

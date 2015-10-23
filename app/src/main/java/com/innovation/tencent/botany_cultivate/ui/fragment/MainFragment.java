@@ -98,9 +98,9 @@ public class MainFragment extends BaseFragment {
     protected void init() {
         weather = new Weather();
         urls = new String[]{
-                "http://img5.imgtn.bdimg.com/it/u=3580210867,3098509580&fm=21&gp=0.jpg",
-                "http://img2.imgtn.bdimg.com/it/u=2162766932,244861494&fm=21&gp=0.jpg",
-                "http://img2.imgtn.bdimg.com/it/u=2199763593,4070991891&fm=21&gp=0.jpg"
+                "http://img0.imgtn.bdimg.com/it/u=510878081,2337058705&fm=21&gp=0.jpg",
+                "http://img3.imgtn.bdimg.com/it/u=1659272368,2722888983&fm=21&gp=0.jpg",
+                "http://img3.imgtn.bdimg.com/it/u=1347763669,3428842308&fm=21&gp=0.jpg"
         };
         slideItems = new ArrayList<View>();
     }
@@ -149,8 +149,6 @@ public class MainFragment extends BaseFragment {
 
             @Override
             protected void onSuccess(JSONObject jsonObject) throws Exception {
-
-                System.out.println("----->" + jsonObject.toString());
 
                 weather = JSON.parseObject(jsonObject.toString(), Weather.class);
                 String temp = weather.getSk().getTemp() + "C";

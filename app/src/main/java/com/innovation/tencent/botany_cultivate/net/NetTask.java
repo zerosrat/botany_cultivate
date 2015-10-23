@@ -38,7 +38,6 @@ public abstract class NetTask {
 
     public void execute() {
 
-        System.out.println("----->"+NetWorkUtil.getInstance(context).isConnectNet());
         if (NetWorkUtil.getInstance(context).isConnectNet()) {
             myProcessDialog.show();
             //showProgress
@@ -112,11 +111,12 @@ public abstract class NetTask {
 
         @Override
         public void run() {
-
+            System.out.println("---->"+jsonObject);
             if (jsonObject == null) {
                 onFail();
                 onFinish();
                 myProcessDialog.hide();
+                myErrorDialog.show();
             }
             try {
                 if (jsonObject.getInt("resultcode") == 200) {

@@ -34,7 +34,7 @@
         android:layout_width="fill_parent"
         android:layout_height="44dp"
         android:layout_alignParentBottom="true"
-        android:background="#ffffff"
+        android:background="@drawable/shape_tab_main"
         android:orientation="horizontal">
 
         <RadioButton
@@ -90,4 +90,5 @@
             android:textColor="@drawable/selector_tab_text_main"
             android:textSize="12sp" />
     </RadioGroup>
+
 </RelativeLayout>
