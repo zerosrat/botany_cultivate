@@ -350,6 +350,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/ll_todayseed1_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -357,11 +358,13 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/iv_todayseed1_main"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="#cccccc" />
 
                     <TextView
+                        android:id="@+id/tv_todayseed1_main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -370,6 +373,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_todayseed2_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -377,11 +381,13 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/iv_todayseed2_main"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="#cccccc" />
 
                     <TextView
+                        android:id="@+id/tv_todayseed2_main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -390,6 +396,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_todayseed3_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -397,11 +404,13 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/iv_todayseed3_main"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="#cccccc" />
 
                     <TextView
+                        android:id="@+id/tv_todayseed3_main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

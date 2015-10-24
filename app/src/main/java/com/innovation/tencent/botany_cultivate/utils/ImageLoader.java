@@ -97,7 +97,7 @@ public class ImageLoader {
 
     }
 
-    private ImageLoader() {
+    private  ImageLoader() {
 
     }
 

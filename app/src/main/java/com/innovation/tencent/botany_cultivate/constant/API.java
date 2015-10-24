@@ -117,4 +117,7 @@ public class API {
 //        }
 //    }
 //    }
+
+    public static final String URL_MYAPP="http://botanycultivate.sinaapp.com/";
+    public static final String URL_TODAYSEED="http://botanycultivate.sinaapp.com/today_seed.php";
 }

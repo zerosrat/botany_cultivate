@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -16,11 +17,13 @@ import com.alibaba.fastjson.JSON;
 import com.innovation.tencent.botany_cultivate.R;
 import com.innovation.tencent.botany_cultivate.base.BaseFragment;
 import com.innovation.tencent.botany_cultivate.constant.API;
+import com.innovation.tencent.botany_cultivate.domain.TodaySeed;
 import com.innovation.tencent.botany_cultivate.domain.Weather;
 import com.innovation.tencent.botany_cultivate.handler.SlideHandler;
 import com.innovation.tencent.botany_cultivate.net.NetTask;
 import com.innovation.tencent.botany_cultivate.ui.adapter.SlideAdapter;
 import com.innovation.tencent.botany_cultivate.utils.HttpUtil;
+import com.innovation.tencent.botany_cultivate.utils.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -34,10 +37,14 @@ public class MainFragment extends BaseFragment {
     private View slideItem;
     private View baseView;
     private TextView tv_city_main, tv_temp_main, tv_humidity_main, tv_uvindex_main, tv_wind_main, tv_weather_main;
+    private ImageView iv_todayseed1_main, iv_todayseed2_main, iv_todayseed3_main;
+    private TextView tv_todayseed_main, tv_todayseed1_main, tv_todayseed2_main, tv_todayseed3_main;
+    private LinearLayout ll_todayseed_main, ll_todayseed1_main, ll_todayseed2_main, ll_todayseed3_main;
 
+    private ImageLoader imageLoader;
     private LayoutInflater inflater;
     private String[] urls;
-
+    private List<TodaySeed> todaySeeds;
     private List<View> slideItems;
     private static final int IMAGE_NUM = 3;
     private SlideAdapter adapter;
@@ -103,6 +110,8 @@ public class MainFragment extends BaseFragment {
                 "http://img3.imgtn.bdimg.com/it/u=1347763669,3428842308&fm=21&gp=0.jpg"
         };
         slideItems = new ArrayList<View>();
+        todaySeeds = new ArrayList<TodaySeed>();
+
     }
 
 
@@ -122,10 +131,24 @@ public class MainFragment extends BaseFragment {
         tv_wind_main = (TextView) view.findViewById(R.id.tv_wind_main);
         tv_weather_main = (TextView) view.findViewById(R.id.tv_weather_main);
 
+        ll_todayseed_main = (LinearLayout) view.findViewById(R.id.ll_todayseed_main);
+        ll_todayseed1_main = (LinearLayout) view.findViewById(R.id.ll_todayseed1_main);
+        ll_todayseed2_main = (LinearLayout) view.findViewById(R.id.ll_todayseed2_main);
+        ll_todayseed3_main = (LinearLayout) view.findViewById(R.id.ll_todayseed3_main);
+        iv_todayseed1_main = (ImageView) view.findViewById(R.id.iv_todayseed1_main);
+        iv_todayseed2_main = (ImageView) view.findViewById(R.id.iv_todayseed2_main);
+        iv_todayseed3_main = (ImageView) view.findViewById(R.id.iv_todayseed3_main);
+        tv_todayseed_main = (TextView) view.findViewById(R.id.tv_todayseed_main);
+        tv_todayseed1_main = (TextView) view.findViewById(R.id.tv_todayseed1_main);
+        tv_todayseed2_main = (TextView) view.findViewById(R.id.tv_todayseed2_main);
+        tv_todayseed3_main = (TextView) view.findViewById(R.id.tv_todayseed3_main);
+
         inflater = LayoutInflater.from(view.getContext());
+        imageLoader=ImageLoader.getInstance(view.getContext());
         slideHandler = new SlideHandler(view.getContext(), vp_slide_main);
         initSlide(view);
         initWeather("成都");
+        initTodaySeed();
     }
 
     private void initSlide(View view) {
@@ -149,7 +172,6 @@ public class MainFragment extends BaseFragment {
 
             @Override
             protected void onSuccess(JSONObject jsonObject) throws Exception {
-
                 weather = JSON.parseObject(jsonObject.toString(), Weather.class);
                 String temp = weather.getSk().getTemp() + "C";
                 String uv_index = weather.getToday().getUv_index();
@@ -161,6 +183,67 @@ public class MainFragment extends BaseFragment {
                 tv_weather_main.setText(w);
                 tv_humidity_main.setText(humidity);
                 tv_wind_main.setText(wind);
+            }
+
+            @Override
+            protected void onError(int errorCode, String errorStr) {
+                super.onError(errorCode, errorStr);
+                System.out.println("----->" + errorStr + errorCode);
+            }
+
+            @Override
+            protected void onFail() {
+                super.onFail();
+            }
+        }.execute();
+    }
+
+
+    private void initTodaySeed() {
+        ll_todayseed1_main.setVisibility(View.INVISIBLE);
+        ll_todayseed2_main.setVisibility(View.INVISIBLE);
+        ll_todayseed3_main.setVisibility(View.INVISIBLE);
+        new NetTask(baseView.getContext()) {
+
+            @Override
+            protected JSONObject onLoad() {
+                return HttpUtil.sendGetRequest(API.URL_TODAYSEED);
+            }
+
+            @Override
+            protected void onSuccess(JSONObject jsonObject) throws Exception {
+                todaySeeds = JSON.parseArray(jsonObject.getString("seed_array"), TodaySeed.class);
+                switch (todaySeeds.size()) {
+                    case 0:
+                        tv_todayseed_main.setVisibility(View.GONE);
+                        ll_todayseed_main.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        tv_todayseed1_main.setText(todaySeeds.get(0).getName());
+                        imageLoader.loadImage(todaySeeds.get(0).getImage(),iv_todayseed1_main);
+                        ll_todayseed1_main.setVisibility(View.VISIBLE);
+
+                        break;
+                    case 2:
+                        tv_todayseed1_main.setText(todaySeeds.get(0).getName());
+                        imageLoader.loadImage(todaySeeds.get(0).getImage(),iv_todayseed1_main);
+                        tv_todayseed2_main.setText(todaySeeds.get(1).getName());
+                        imageLoader.loadImage(todaySeeds.get(1).getImage(),iv_todayseed2_main);
+                        ll_todayseed1_main.setVisibility(View.VISIBLE);
+                        ll_todayseed2_main.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        tv_todayseed1_main.setText(todaySeeds.get(0).getName());
+                        imageLoader.loadImage(todaySeeds.get(0).getImage(),iv_todayseed1_main);
+                        tv_todayseed2_main.setText(todaySeeds.get(1).getName());
+                        imageLoader.loadImage(todaySeeds.get(1).getImage(),iv_todayseed2_main);
+                        tv_todayseed3_main.setText(todaySeeds.get(2).getName());
+                        imageLoader.loadImage(todaySeeds.get(2).getImage(),iv_todayseed3_main);
+                        ll_todayseed1_main.setVisibility(View.VISIBLE);
+                        ll_todayseed2_main.setVisibility(View.VISIBLE);
+                        ll_todayseed3_main.setVisibility(View.VISIBLE);
+                        break;
+                }
             }
 
             @Override
