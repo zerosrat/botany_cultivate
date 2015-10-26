@@ -1,10 +1,8 @@
 package com.innovation.tencent.botany_cultivate.ui.fragment;
 
-import android.graphics.Color;
-import android.os.Handler;
+
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,10 +22,12 @@ import com.innovation.tencent.botany_cultivate.net.NetTask;
 import com.innovation.tencent.botany_cultivate.ui.adapter.SlideAdapter;
 import com.innovation.tencent.botany_cultivate.utils.HttpUtil;
 import com.innovation.tencent.botany_cultivate.utils.ImageLoader;
+import com.lidroid.xutils.http.RequestParams;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainFragment extends BaseFragment {
@@ -207,12 +207,15 @@ public class MainFragment extends BaseFragment {
 
             @Override
             protected JSONObject onLoad() {
-                return HttpUtil.sendGetRequest(API.URL_TODAYSEED);
+                RequestParams params=new RequestParams();
+                params.addBodyParameter("cityname", "成都");
+                return  HttpUtil.sendPostRequest(API.URL_TODAYSEED, params);
             }
 
             @Override
             protected void onSuccess(JSONObject jsonObject) throws Exception {
                 todaySeeds = JSON.parseArray(jsonObject.getString("seed_array"), TodaySeed.class);
+                System.out.println("------>"+todaySeeds.size());
                 switch (todaySeeds.size()) {
                     case 0:
                         tv_todayseed_main.setVisibility(View.GONE);
@@ -232,13 +235,25 @@ public class MainFragment extends BaseFragment {
                         ll_todayseed1_main.setVisibility(View.VISIBLE);
                         ll_todayseed2_main.setVisibility(View.VISIBLE);
                         break;
-                    default:
+                    case 3:
                         tv_todayseed1_main.setText(todaySeeds.get(0).getName());
-                        imageLoader.loadImage(todaySeeds.get(0).getImage(),iv_todayseed1_main);
+                        imageLoader.loadImage(todaySeeds.get(0).getImage(), iv_todayseed1_main);
                         tv_todayseed2_main.setText(todaySeeds.get(1).getName());
-                        imageLoader.loadImage(todaySeeds.get(1).getImage(),iv_todayseed2_main);
+                        imageLoader.loadImage(todaySeeds.get(1).getImage(), iv_todayseed2_main);
                         tv_todayseed3_main.setText(todaySeeds.get(2).getName());
-                        imageLoader.loadImage(todaySeeds.get(2).getImage(),iv_todayseed3_main);
+                        imageLoader.loadImage(todaySeeds.get(2).getImage(), iv_todayseed3_main);
+                        ll_todayseed1_main.setVisibility(View.VISIBLE);
+                        ll_todayseed2_main.setVisibility(View.VISIBLE);
+                        ll_todayseed3_main.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        Collections.shuffle(todaySeeds);
+                        tv_todayseed1_main.setText(todaySeeds.get(0).getName());
+                        imageLoader.loadImage(todaySeeds.get(0).getImage(), iv_todayseed1_main);
+                        tv_todayseed2_main.setText(todaySeeds.get(1).getName());
+                        imageLoader.loadImage(todaySeeds.get(1).getImage(), iv_todayseed2_main);
+                        tv_todayseed3_main.setText(todaySeeds.get(2).getName());
+                        imageLoader.loadImage(todaySeeds.get(2).getImage(), iv_todayseed3_main);
                         ll_todayseed1_main.setVisibility(View.VISIBLE);
                         ll_todayseed2_main.setVisibility(View.VISIBLE);
                         ll_todayseed3_main.setVisibility(View.VISIBLE);

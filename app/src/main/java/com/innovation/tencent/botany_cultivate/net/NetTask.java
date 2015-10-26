@@ -111,6 +111,7 @@ public abstract class NetTask {
 
         @Override
         public void run() {
+
             if (jsonObject == null) {
                 onFail();
                 onFinish();
@@ -120,6 +121,7 @@ public abstract class NetTask {
             try {
 
                 if (jsonObject.getInt("resultcode") == 200) {
+
                     onSuccess(jsonObject.getJSONObject("result"));
                 } else {
                     int errorCode = jsonObject.getInt("resultcode");
