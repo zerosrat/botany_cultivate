@@ -30,8 +30,4 @@ public class DetailActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void setComposition() {
-
-    }
 }

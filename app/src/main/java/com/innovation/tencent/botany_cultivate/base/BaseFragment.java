@@ -1,4 +1,6 @@
 package com.innovation.tencent.botany_cultivate.base;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,8 +17,7 @@ public abstract class BaseFragment extends Fragment {
         myActivity= (BaseActivity) getActivity();
         init();
         View view=inflater.inflate(getRooyView(),container,false);
-        setComponsition(view);
-        initData();
+        initData(view);
         setListener();
 
         return view;
@@ -39,10 +40,11 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 请求数据，设置UI
      */
-    protected abstract void initData();
+    protected abstract void initData(View view);
 
-    /**
-     * findViewById
-     */
-    protected abstract void setComponsition(View view);
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 }

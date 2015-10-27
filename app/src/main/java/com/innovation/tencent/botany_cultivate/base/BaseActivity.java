@@ -1,4 +1,6 @@
 package com.innovation.tencent.botany_cultivate.base;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -15,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         ActivityUtil.addActivity(this);
         init();
         setContentView(getRootView());
-        setComposition();
+
         initData();
         setListener();
 
@@ -42,10 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity{
      */
     protected abstract void initData();
 
-    /**
-     * findViewById
-     */
-    protected abstract void setComposition();
+
 
     /**
      * activity销毁后的操作
@@ -62,5 +61,11 @@ public abstract class BaseActivity extends AppCompatActivity{
     public void finish() {
         super.finish();
         ActivityUtil.removeActivity(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

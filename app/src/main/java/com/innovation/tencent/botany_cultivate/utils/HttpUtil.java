@@ -22,7 +22,7 @@ public class HttpUtil {
         if (instance == null) {
             instance = new HttpUtils();
             instance.configCurrentHttpCacheExpiry(1000 * 2);
-            instance.configTimeout(5000);
+            instance.configSoTimeout(5 * 1000);
         }
         return instance;
     }
