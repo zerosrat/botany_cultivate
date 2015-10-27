@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +21,8 @@ import com.innovation.tencent.botany_cultivate.domain.Weather;
 import com.innovation.tencent.botany_cultivate.handler.SlideHandler;
 import com.innovation.tencent.botany_cultivate.net.NetTask;
 import com.innovation.tencent.botany_cultivate.ui.adapter.SlideAdapter;
+import com.innovation.tencent.botany_cultivate.ui.pulltorefresh.PullToRefreshBase;
+import com.innovation.tencent.botany_cultivate.ui.pulltorefresh.PullToRefreshScrollView;
 import com.innovation.tencent.botany_cultivate.utils.HttpUtil;
 import com.innovation.tencent.botany_cultivate.utils.ImageLoader;
 import com.lidroid.xutils.http.RequestParams;
@@ -40,7 +43,7 @@ public class MainFragment extends BaseFragment {
     private ImageView iv_todayseed1_main, iv_todayseed2_main, iv_todayseed3_main;
     private TextView tv_todayseed_main, tv_todayseed1_main, tv_todayseed2_main, tv_todayseed3_main;
     private LinearLayout ll_todayseed_main, ll_todayseed1_main, ll_todayseed2_main, ll_todayseed3_main;
-
+    private PullToRefreshScrollView ptr_main;
     private ImageLoader imageLoader;
     private LayoutInflater inflater;
     private String[] urls;
@@ -59,6 +62,13 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        ptr_main.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                initWeather("成都");
+
+            }
+        });
         vp_slide_main.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -118,6 +128,8 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initData(View view) {
         baseView = view;
+        ptr_main = (PullToRefreshScrollView) view.findViewById(R.id.ptr_main);
+
         vp_slide_main = (ViewPager) view.findViewById(R.id.vp_slide_main);
         rg_slide_main = (RadioGroup) view.findViewById(R.id.rg_slide_main);
         rb_dot1_main = (RadioButton) view.findViewById(R.id.rb_dot1_main);
@@ -144,7 +156,7 @@ public class MainFragment extends BaseFragment {
         tv_todayseed3_main = (TextView) view.findViewById(R.id.tv_todayseed3_main);
 
         inflater = LayoutInflater.from(view.getContext());
-        imageLoader=ImageLoader.getInstance(view.getContext());
+        imageLoader = ImageLoader.getInstance(view.getContext());
         slideHandler = new SlideHandler(view.getContext(), vp_slide_main);
         initSlide(view);
         initWeather("成都");
@@ -164,7 +176,7 @@ public class MainFragment extends BaseFragment {
 
     private void initWeather(final String cityName) {
         tv_city_main.setText(cityName);
-        new NetTask(baseView.getContext()) {
+        new NetTask(baseView) {
             @Override
             protected JSONObject onLoad() {
                 return HttpUtil.sendGetRequest(API.URL_WEATHER + cityName);
@@ -183,6 +195,7 @@ public class MainFragment extends BaseFragment {
                 tv_weather_main.setText(w);
                 tv_humidity_main.setText(humidity);
                 tv_wind_main.setText(wind);
+                ptr_main.onRefreshComplete();
             }
 
             @Override
@@ -203,19 +216,19 @@ public class MainFragment extends BaseFragment {
         ll_todayseed1_main.setVisibility(View.INVISIBLE);
         ll_todayseed2_main.setVisibility(View.INVISIBLE);
         ll_todayseed3_main.setVisibility(View.INVISIBLE);
-        new NetTask(baseView.getContext()) {
+        new NetTask(baseView) {
 
             @Override
             protected JSONObject onLoad() {
-                RequestParams params=new RequestParams();
+                RequestParams params = new RequestParams();
                 params.addBodyParameter("cityname", "成都");
-                return  HttpUtil.sendPostRequest(API.URL_TODAYSEED, params);
+                return HttpUtil.sendPostRequest(API.URL_TODAYSEED, params);
             }
 
             @Override
             protected void onSuccess(JSONObject jsonObject) throws Exception {
                 todaySeeds = JSON.parseArray(jsonObject.getString("seed_array"), TodaySeed.class);
-                System.out.println("------>"+todaySeeds.size());
+                System.out.println("------>" + todaySeeds.size());
                 switch (todaySeeds.size()) {
                     case 0:
                         tv_todayseed_main.setVisibility(View.GONE);
@@ -223,15 +236,15 @@ public class MainFragment extends BaseFragment {
                         break;
                     case 1:
                         tv_todayseed1_main.setText(todaySeeds.get(0).getName());
-                        imageLoader.loadImage(todaySeeds.get(0).getImage(),iv_todayseed1_main);
+                        imageLoader.loadImage(todaySeeds.get(0).getImage(), iv_todayseed1_main);
                         ll_todayseed1_main.setVisibility(View.VISIBLE);
 
                         break;
                     case 2:
                         tv_todayseed1_main.setText(todaySeeds.get(0).getName());
-                        imageLoader.loadImage(todaySeeds.get(0).getImage(),iv_todayseed1_main);
+                        imageLoader.loadImage(todaySeeds.get(0).getImage(), iv_todayseed1_main);
                         tv_todayseed2_main.setText(todaySeeds.get(1).getName());
-                        imageLoader.loadImage(todaySeeds.get(1).getImage(),iv_todayseed2_main);
+                        imageLoader.loadImage(todaySeeds.get(1).getImage(), iv_todayseed2_main);
                         ll_todayseed1_main.setVisibility(View.VISIBLE);
                         ll_todayseed2_main.setVisibility(View.VISIBLE);
                         break;
@@ -259,6 +272,7 @@ public class MainFragment extends BaseFragment {
                         ll_todayseed3_main.setVisibility(View.VISIBLE);
                         break;
                 }
+                ptr_main.onRefreshComplete();
             }
 
             @Override
