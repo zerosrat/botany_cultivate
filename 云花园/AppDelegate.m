@@ -30,6 +30,7 @@
     [[UINavigationBar appearance]setBarStyle:UIBarStyleBlack];
     UITabBarController *tabBarController = [[UITabBarController alloc]init];
     tabBarController.tabBar.tintColor = [UIColor colorWithRed:42.0/255.0 green:182.0/255.0 blue:83.0/255.0 alpha:1.0];//设置高亮时候button颜色
+    tabBarController.tabBar.barStyle = UIBarStyleDefault;
     
     
     HomePageViewController *homePageVC = [[HomePageViewController alloc]init];
